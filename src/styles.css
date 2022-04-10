@@ -2,5 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 /* You can add global styles to this file, and also import other style files */
-@import "~ng-zorro-antd/style/index.min.css"; /* Import base styles */
-@import "~ng-zorro-antd/button/style/index.min.css";
+@layer components {
+    .flex-center {
+      @apply flex content-center items-center justify-center justify-items-center;
+    }
+  
+    .full-view-size {
+      @apply w-[100vw] h-[100vh];
+    }
+    img{
+      display: inline-block
+    }
+    svg{
+      vertical-align: baseline
+    }
+    
+  }
