@@ -1,7 +1,7 @@
 <div class="w-5/6 h-5/6  rounded-xl border-4 border-cyan-400">
     <div class="grid grid-cols-5 gap-2 mt-6 m-2">
         <ng-container *ngFor="let table of table$ | async">
-            <app-table-detail [table]="table"></app-table-detail>
+            <app-dashboard-table-detail [table]="table"></app-dashboard-table-detail>
         </ng-container>
     </div>
 </div>

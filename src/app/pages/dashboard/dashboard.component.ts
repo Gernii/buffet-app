@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DashboardService } from './dashboard.service';
 @Component({
   templateUrl: 'dashboard.component.html',
+
   styles: [
     `
       :host {
@@ -24,8 +26,12 @@ import { DashboardService } from './dashboard.service';
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
+  sub: Subscription | undefined;
   table$ = this.dashboardService.table$;
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService) {
+    this.sub = this.table$.subscribe((value) => console.log(value));
+  }
 }

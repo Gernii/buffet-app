@@ -1,66 +1,103 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, map, Observable } from 'rxjs';
+import { DashboardService } from '../dashboard.service';
+import { Table } from '../type';
 
 @Component({
   selector: 'app-edit-modal',
-  animations: [
-    trigger('openModal', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('.3s ease', style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
-  styles: [
-    `
-      .box {
-        @apply grid gap-2 items-center;
-      }
-      .bg-black-w-opacity {
-        background-color: rgba(0, 0, 0, 0.4);
-      }
-    `,
-  ],
-  templateUrl: 'edit-modal.component.html',
+  template: `
+    <!-- Add User Modal -->
+    <!-- <div>{{ (form$ | async)?.invalid }}</div> -->
+    <ng-container *ngIf="form$ | async as form">
+      <ng-template #content>
+        <form [formGroup]="form" class="grid gap-5 w-full ">
+          <app-input-label
+            formName="Tên khách hàng"
+            formControlName="customer_name"
+          ></app-input-label>
+          <app-input-label
+            formName="Số lượng khách"
+            formControlName="members"
+            inputType="number"
+          ></app-input-label>
+          <app-input-label
+            formName="Nhân viên đặt bàn"
+            formControlName="staf"
+          ></app-input-label>
+        </form>
+      </ng-template>
+      <ng-template #footer let-ref="modalRef">
+        <button nz-button (click)="ref.destroy()" (click)="onClearAddUser()">
+          Huỷ
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="onConfirmAddCustomer(form.value)"
+          (click)="ref.destroy()"
+          [disabled]="form.invalid"
+        >
+          Xác nhận
+        </button>
+      </ng-template>
+    </ng-container>
+  `,
 })
 export class EditModalComponent {
-  typeList = ['text', 'boolean', 'categorical', 'float', 'list', 'any'];
-  editingSlot: Slot | undefined = undefined;
-  modalStatus$ = this.slotService.modalStatus$;
-  form$: Observable<FormGroup | undefined>;
-
-  constructor(private fb: FormBuilder) {
-    this.form$ = this.slotService.selectedSlot$.pipe(
-      filter((u): u is Slot => !!u),
-      map((slot) => {
-        this.editingSlot = slot;
+  form$: Observable<FormGroup>;
+  @ViewChild('content', { read: TemplateRef }) content:
+    | TemplateRef<Record<string, unknown>>
+    | undefined;
+  @ViewChild('footer', { read: TemplateRef }) footer:
+    | TemplateRef<Record<string, unknown>>
+    | undefined;
+  constructor(
+    private fb: FormBuilder,
+    private modal: NzModalService,
+    private dashboardService: DashboardService
+  ) {
+    this.form$ = this.dashboardService.selectedTable$.pipe(
+      filter((table): table is Table => !!table),
+      map((table) => {
         return this.fb.group({
-          name: [slot.name, Validators.required],
-          type: [slot.type, Validators.required],
-          influenceConversation: slot.influenceConversation,
-          autoFill: slot.autoFill,
-          categorical: slot.type === 'categorical' ? [] : undefined,
-          content: slot.content,
+          id: table.id,
+          customer_name: [table.customer_name, Validators.required],
+          members: [table.members, Validators.required],
+          staf: [table.staf, Validators.required],
         });
       })
     );
   }
 
-  onConfirm(form: FormGroup) {
-    this.sdkSLotService.addSlot(form.value).subscribe(() => {
-      this.onClear();
+  createAddUserModal() {
+    this.modal.create({
+      nzTitle: 'Add user',
+      nzContent: this.content,
+      nzFooter: this.footer,
+      nzOnCancel: () => this.onClearAddUser(),
     });
   }
 
-  onClear() {
-    this.slotService.modalStatus = undefined;
-  }
+  onClearAddUser() {}
 
-  onReset(form: FormGroup) {
-    if (this.editingSlot !== undefined) form.reset(this.editingSlot);
-    else form.reset();
+  onConfirmAddCustomer({
+    id,
+    customer_name,
+    members,
+    staf,
+  }: {
+    id: number;
+    customer_name: string;
+    members: number;
+    staf: string;
+  }) {
+    this.dashboardService.onChangeTableStatus({
+      id,
+      customer_name,
+      members,
+      staf,
+    });
   }
 }
