@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@angular-devkit/build-angular': ~13.2.5
   '@angular/animations': ~13.2.0
+  '@angular/cdk': ^13.3.2
   '@angular/cli': ~13.2.5
   '@angular/common': ~13.2.0
   '@angular/compiler': ~13.2.0
@@ -45,6 +46,7 @@ dependencies:
 
 devDependencies:
   '@angular-devkit/build-angular': 13.2.6_7e182917d7f73bdb6d055fd8a6a11282
+  '@angular/cdk': 13.3.2_f98f61a5718962feed736aadd35a8aad
   '@angular/cli': 13.2.6
   '@angular/compiler-cli': 13.2.7_6b479ef398330c4b45aefba79d2fdab9
   '@ant-design/icons-angular': 13.1.0_57d78c2fd33647bdfd4b41ba21f3d17d
