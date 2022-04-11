@@ -3,11 +3,28 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'admin',
     loadChildren: () =>
       import('./pages/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+  },
+  {
+    path: 'table',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/table-list/table-list.module').then(
+            (m) => m.TableListModule
+          ),
+      },
+      {
+        path: ':id',
+        loadChildren: () =>
+          import('./pages/order/order.module').then((m) => m.OrderModule),
+      },
+    ],
   },
 ];
 
