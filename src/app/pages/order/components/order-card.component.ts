@@ -6,9 +6,10 @@ import { Food } from '../../dashboard/type';
   selector: 'app-order-card',
   template: `
     <li
-      class="grid grid-cols-[auto_minmax(auto,100px)_50px] items-center gap-2 p-4"
+      class="grid grid-cols-[auto_minmax(auto,100px)_minmax(auto,100px)_50px] items-center gap-2 p-4"
     >
       <p class="px-4 !mb-0 ">{{ food?.name }}</p>
+      <p class="px-4 !mb-0 text-right">{{ food?.price }}</p>
 
       <nz-input-number
         [(ngModel)]="number"

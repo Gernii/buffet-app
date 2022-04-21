@@ -17,7 +17,7 @@ import { PaymentModalComponent } from './payment-modal.component';
   ],
   template: `
     <div
-      class="flex-center border-[1px] rounded-md !flex-col px-8 py-6 shadow bg-white border-zinc-200"
+      class="flex-center border-[1px] rounded-md !flex-col px-4 py-6 shadow bg-white border-zinc-200"
     >
       <span class="w-full font-bold uppercase ">
         {{ (table$ | async)?.name }}
@@ -32,6 +32,7 @@ import { PaymentModalComponent } from './payment-modal.component';
             nz-button
             nzType="primary"
             nzShape="round"
+            nzPopconfirmPlacement="bottom"
             nz-popconfirm
             nzOkText="OK"
             nzCancelText="Huỷ"

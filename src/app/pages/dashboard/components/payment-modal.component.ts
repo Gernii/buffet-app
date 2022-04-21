@@ -73,7 +73,7 @@ export class PaymentModalComponent {
 
   createPaymentModal() {
     this.modal.create({
-      nzTitle: 'Add user',
+      nzTitle: 'Payment',
       nzContent: this.content,
       nzFooter: this.footer,
       nzOnCancel: () => this.onClearPayment(),

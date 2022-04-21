@@ -73,7 +73,7 @@ export class EditModalComponent {
 
   createAddUserModal() {
     this.modal.create({
-      nzTitle: 'Add user',
+      nzTitle: 'Edit Table',
       nzContent: this.content,
       nzFooter: this.footer,
       nzOnCancel: () => this.onClearAddUser(),
