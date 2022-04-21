@@ -1,0 +1,15 @@
+<div class="w-5/6 h-5/6  rounded-xl border-4 border-cyan-400">
+    <div class="grid grid-cols-[auto_minmax(auto,100px)_minmax(auto,100px)_50px] items-center gap-2 p-4">
+        <span class="font-semibold capitalize px-4"> Tên </span>
+        <span class="font-semibold capitalize text-center whitespace-nowrap">
+            Giá
+        </span>
+        <span class="font-semibold capitalize text-center"> Số Lượng </span>
+    </div>
+    <hr>
+    <app-list-order [listItemTemplate]="orderDetail" [items]="foods">
+        <ng-template #orderDetail let-food>
+            <app-order-card [food]="food" (id)="onOrder($event)"></app-order-card>
+        </ng-template>
+    </app-list-order>
+</div>

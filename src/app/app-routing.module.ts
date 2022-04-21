@@ -1,10 +1,36 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  {
+    path: 'table',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./pages/table-list/table-list.module').then(
+            (m) => m.TableListModule
+          ),
+      },
+      {
+        path: ':id',
+        loadChildren: () =>
+          import('./pages/order/order.module').then((m) => m.OrderModule),
+      },
+    ],
+  },
+  { path: '', pathMatch: 'prefix', redirectTo: 'table' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
